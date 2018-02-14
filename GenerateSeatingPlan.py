@@ -27,9 +27,10 @@ import logging
 import os
 from optparse import OptionParser
 from random import *
+import codecs
 
 ## for CSV
-import csv
+import unicodecsv as csv
 
 ## debugging:   for setting a breakpoint:  pdb.set_trace()
 #import pdb
@@ -342,8 +343,10 @@ def handle_logging():
 
 
 def ReadInStudentsFromCsv(csvfilename):
-
-    csvReader = csv.DictReader(open(csvfilename), delimiter=';', quotechar='"')
+    csvFile = open(csvfilename,"rb")
+    ## get rid of utf-8 BOM since unicodecsv can't deal with that an quotes first key
+    csvFile.read(3) 
+    csvReader = csv.DictReader(csvFile, delimiter=';', quotechar='"', encoding="utf-8")
     students_list = []
 
     for row in csvReader:
@@ -548,10 +551,10 @@ def GenerateTextfileSortedByStudentLastname(lecture_room, list_of_students_with_
     # well we need to sort the student list if the function name says so!
     list_of_students_with_seats.sort(key=lambda s: s['FAMILY_NAME_OF_STUDENT'])
 
-    file = open(FILENAME_MAIN_BY_LASTNAME_WITHOUT_EXTENSION + '.txt', 'w')
+    file = codecs.open(FILENAME_MAIN_BY_LASTNAME_WITHOUT_EXTENSION + '.txt', 'w','utf-8')
 
     file.write("               Seating plan     " + lecture_room['name'] + "      by last name\n\n")
-
+            
     for student in list_of_students_with_seats:
         file.write(student['FAMILY_NAME_OF_STUDENT'].ljust(25, '.') + \
             student['FIRST_NAME_OF_STUDENT'].ljust(20, '.') + \
@@ -564,7 +567,7 @@ def GenerateLatexfileSortedByStudentLastname(lecture_room, list_of_students_with
     # well we need to sort the student list if the function name says so!
     list_of_students_with_seats.sort(key=lambda s: s['FAMILY_NAME_OF_STUDENT'])
 
-    file = open(TEMP_FILENAME_STUDENTS_BY_LASTNAME_TEXFILE, 'w')
+    file = codecs.open(TEMP_FILENAME_STUDENTS_BY_LASTNAME_TEXFILE, 'w', 'utf-8')
 
     for student in list_of_students_with_seats:
         file.write("\\vkExamStudent{" + student['FAMILY_NAME_OF_STUDENT'] + '}{' + \
@@ -703,9 +706,9 @@ openright%
 ]{scrartcl}
 
 %% encoding:
-\\usepackage[ansinew]{inputenc}
+%\\usepackage[ansinew]{inputenc}
 \\usepackage{ucs}
-%\\usepackage[utf8x]{inputenc}  %% Sorry, problems with Umlauts in CSV forced me to stay at ansinew
+\\usepackage[utf8x]{inputenc}  %% Sorry, problems with Umlauts in CSV forced me to stay at ansinew
 
 %% use up as much space as possible:
 \\usepackage{savetrees}
