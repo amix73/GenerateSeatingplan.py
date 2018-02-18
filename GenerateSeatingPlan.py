@@ -855,7 +855,7 @@ openright%
 \\clearscrplain
 \\chead{Exam Checklist of Lecture Room ''' + lecture_room['name'] + '''}
 \\ifoot[c]{\\scriptsize{}page~\\pagemark}
-%%\\ofoot{\\tiny{}Generated using GenerateSeatingPlan.py by Karl Voit}
+\\ofoot{\\tiny{}Generated using GenerateSeatingPlan.py by Karl Voit}
 
 \\begin{document}
 \setlength{\parindent}{0cm} %%remove the intendation of the first line of paragraph. 
