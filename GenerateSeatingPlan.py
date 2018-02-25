@@ -604,7 +604,7 @@ def GenerateHtmlFileWithTableFormat(lecture_room, list_of_students_with_seats):
     htmlfile.write('<head>\n')
     htmlfile.write(' 	<title>Seating Plan</title>\n')
     htmlfile.write('	<meta http-equiv="content-type"\n')
-    htmlfile.write('		content="text/html;charset=iso-8859-1" />\n')
+    htmlfile.write('		content="text/html;charset=utf-8" />\n')
     htmlfile.write('		<STYLE type="text/css">\n')
     htmlfile.write('		table {table-layout: fixed;}\n')
     htmlfile.write('    td {border: 1px solid #000000; text-align: center; width: 100px; font-size: 10pt; height: 60px; %s}\n')
@@ -741,6 +741,7 @@ openright%
 
 %% encoding:
 %\\usepackage[ansinew]{inputenc}
+\\usepackage[T1]{fontenc}
 \\usepackage{ucs}
 \\usepackage[utf8x]{inputenc}  %% Sorry, problems with Umlauts in CSV forced me to stay at ansinew
 
@@ -821,6 +822,7 @@ openright%
 
 %% encoding:
 %%\\usepackage[ansinew]{inputenc}
+\\usepackage[T1]{fontenc}
 \\usepackage{ucs}
 \\usepackage[utf8x]{inputenc}  %% Sorry, problems with Umlauts in CSV forced me to stay at ansinew
 
