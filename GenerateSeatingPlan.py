@@ -17,7 +17,6 @@ FIXXME:
     * look for the string FIXXME to improve this script
     * Sanity checks all over (cmd line parameters, CSV file, ...)
     * probably: if -p is given, ask for proceeding after displaying ASCII seating plan
-    * re-write random assignment of seats so that seats are filled from the front (and only last seats may stay empty)
     * check seed parameter
 
 """
@@ -579,13 +578,13 @@ def GenerateLatexfileSortedByStudentLastname(lecture_room, list_of_students_with
     file.flush()
     os.fsync(file.fileno())
 
-def MangleNameIfLongerThanThresholdForUnicode(name, threshold):
+def TruncateNameIfLongerThanThresholdForUnicode(name, threshold):
 	if len(name) > threshold:
 		return name[:threshold-3]+u"\u2026"
 	else:
 		return name
 
-def MangleNameIfLongerThanThresholdForHTML(name, threshold):
+def TruncateNameIfLongerThanThresholdForHTML(name, threshold):
 	if len(name) > threshold:
 		return name[:threshold-2]+"&hellip;"
 	else:
@@ -656,7 +655,7 @@ def GenerateHtmlFileWithTableFormat(lecture_room, list_of_students_with_seats):
             elif len(students_on_this_seat) == 1:
                 student = students_on_this_seat[0]
                 seat_class = 'occupied'
-                seat_data = MangleNameIfLongerThanThresholdForHTML(student['FAMILY_NAME_OF_STUDENT'],10) + \
+                seat_data = TruncateNameIfLongerThanThresholdForHTML(student['FAMILY_NAME_OF_STUDENT'],10) + \
                     '<br />' + student['FIRST_NAME_OF_STUDENT'] + \
                     '<br />' + student['REGISTRATION_NUMBER'][:STUDENT_REGNUM_NUM_OF_DIGITS_SHOWN] + 'X'*STUDENT_REGNUM_MASK_LEN
             htmlfile.write('<td class="%s">%s</td>' % (seat_class, seat_data))
@@ -740,10 +739,9 @@ openright%
 ]{scrartcl}
 
 %% encoding:
-%\\usepackage[ansinew]{inputenc}
 \\usepackage[T1]{fontenc}
 \\usepackage{ucs}
-\\usepackage[utf8x]{inputenc}  %% Sorry, problems with Umlauts in CSV forced me to stay at ansinew
+\\usepackage[utf8x]{inputenc}
 
 %% use up as much space as possible:
 \\usepackage{savetrees}
@@ -821,10 +819,9 @@ openright%
 ]{scrartcl}
 
 %% encoding:
-%%\\usepackage[ansinew]{inputenc}
 \\usepackage[T1]{fontenc}
 \\usepackage{ucs}
-\\usepackage[utf8x]{inputenc}  %% Sorry, problems with Umlauts in CSV forced me to stay at ansinew
+\\usepackage[utf8x]{inputenc}
 
 %% use up as much space as possible:
 \\usepackage{savetrees}
